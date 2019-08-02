@@ -1,0 +1,3 @@
+[submodule "LoggingInterceptor"]
+	path = LoggingInterceptor
+	url = https://github.com/ihsanbal/LoggingInterceptor.git

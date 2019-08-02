@@ -9,6 +9,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ihsanbal.logging.Level;
+import com.ihsanbal.logging.LoggingInterceptor;
+
+import okhttp3.OkHttpClient;
+import okhttp3.internal.platform.Platform;
+import okio.Okio;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +33,29 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.addInterceptor(new LoggingInterceptor.Builder()
+                .loggable(BuildConfig.DEBUG)
+                .setLevel(Level.BASIC)
+                .log(Platform.INFO)
+                .request("Request")
+                .response("Response")
+                .addHeader("version", BuildConfig.VERSION_NAME)
+                .addQueryParam("query", "0")
+//                .enableMock(true, 1000L, request -> {
+//                    String segment = request.url().pathSegments().get(0);
+//                    return Okio.buffer(Okio.source(mAssetManager.open(String.format("mock/%s.json", segment)))).readUtf8();
+//                })
+//              .enableAndroidStudio_v3_LogsHack(true) /* enable fix for logCat logging issues with pretty format */
+//              .logger(new Logger() {
+//                  @Override
+//                  public void log(int level, String tag, String msg) {
+//                      Log.w(tag, msg);
+//                  }
+//              })
+//              .executor(Executors.newSingleThreadExecutor())
+                .build());
+        OkHttpClient okHttpClient = client.build();
     }
 
     @Override
